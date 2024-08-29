@@ -1,0 +1,30 @@
+{
+  "web": {
+    "client_id": "951160522735-13gvesgt4t4r3h7997ffodmupf92gjva.apps.googleusercontent.com",
+    "project_id": "project-api-youtube-430502",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": [
+      "http://localhost/youtube-api/",
+      "http://localhost/",
+      "http://localhost/youtube-api/index.php/monetary/",
+      "http://localhost/youtube-api/monetary/",
+      "https://redirectmeto.com/http://localhost/youtube-api/monetary/",
+      "https://redirectmeto.com/http://localhost/youtube-api/index.php/monetary/",
+      "http://localhost/youtube-api/index.php/monetary/callback",
+      "http://localhost/youtube-api/index.php/monetary/disconnect",
+      "http://localhost/youtube-api/monetary/callback",
+      "http://localhost/youtube-api/monetary/disconnect",
+      "https://redirectmeto.com/http://localhost/youtube-api/monetary/callback",
+      "https://redirectmeto.com/http://localhost/youtube-api/monetary/disconnect",
+      "https://redirectmeto.com/http://localhost/youtube-api/index.php/monetary/callback",
+      "https://redirectmeto.com/http://localhost/youtube-api/index.php/monetary/disconnect",
+      "http://localhost/youtube-api/traffic_source",
+      "http://localhost/youtube-api/index.php/traffic_source",
+      "https://redirectmeto.com/http://localhost/youtube-api/traffic_source",
+      "https://redirectmeto.com/http://localhost/youtube-api/index.php/traffic_source"
+    ]
+  }
+}
