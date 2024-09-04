@@ -12,20 +12,24 @@ use Google\Service\YoutubeAnalyticsMonetary;
 class Traffic_Source extends CI_Controller {
 
     private $client;
+	//public $client;
 
     public function __construct() {
         parent::__construct();
+		
         $this->load->library('session');
 
 		date_default_timezone_set('Asia/Jakarta');
-
+		/*
+		
         // Initialize Google Client
         $this->client = new Client();
         $this->client->setApplicationName('Demo Youtube API');
         //$this->client->setAuthConfig('application/views/youtube.json');
 		//$this->client->setAuthConfig('application/views/youtube1.json');
 		$this->client->setAuthConfig('application/views/youtube2.json');
-        $this->client->setRedirectUri(base_url('traffic_source/callback')); // Set your redirect URI
+		$this->client->setRedirectUri(base_url('traffic_source/callback')); // Set your redirect URI
+
         //$this->client->setDeveloperKey('AIzaSyCxD1Fi6QaAfM4uFKuxnl_0NhWYZo1iAoU');
 		//$this->client->setDeveloperKey('AIzaSyA3qC5AVp5hj-2nTmr3Xn0QA5QjL6WQ21k');
 		//$this->client->setDeveloperKey('AIzaSyAc26uFtnQx9XdikSFcS1neeHXW6x5-snQ');
@@ -35,11 +39,53 @@ class Traffic_Source extends CI_Controller {
         $this->client->addScope('https://www.googleapis.com/auth/youtube.readonly');
         $this->client->addScope('https://www.googleapis.com/auth/yt-analytics.readonly');
         $this->client->addScope('https://www.googleapis.com/auth/yt-analytics-monetary.readonly');
-
+		*/
     }
 
     public function index()
-	{
+	{	
+		$this->client = new Client();
+        $this->client->setApplicationName('Demo Youtube API');
+
+		$this->client->setAuthConfig('application/views/youtube2.json');
+        //$this->client->setRedirectUri(base_url('traffic_source/callback')); // Set your redirect URI
+		$this->client->setRedirectUri(base_url('traffic_source')); // Set your redirect URI
+		$this->client->addScope('https://www.googleapis.com/auth/youtube.readonly');
+        $this->client->addScope('https://www.googleapis.com/auth/yt-analytics.readonly');
+        $this->client->addScope('https://www.googleapis.com/auth/yt-analytics-monetary.readonly');
+
+		
+
+		// Check if the user is being redirected back from Google with an authorization code
+		if ($this->input->get('code')) {
+			try {
+				// Exchange the authorization code for an access token
+				$token = $this->client->fetchAccessTokenWithAuthCode($this->input->get('code'), $this->session->userdata('code_verifier'));
+				$this->client->setAccessToken($token);
+				$this->session->set_userdata('google_oauth_token', $token);
+				// Redirect to the index method after connecting
+				redirect(base_url('traffic_source'));
+			} catch (Exception $e) {
+				// Handle the exception and log it
+				log_message('error', 'OAuth callback exception: ' . $e->getMessage());
+				echo "Exception: " . $e->getMessage();
+			}
+			return; // Stop further execution
+		}
+	
+		// Check if the user wants to disconnect
+		if ($this->input->get('action') === 'disconnect') {
+			// Clear the session data
+			$this->session->unset_userdata('google_oauth_token');
+			$this->session->unset_userdata('code_verifier');
+	
+			// Redirect to the index method after disconnecting
+			redirect(base_url('traffic_source'));
+			return; // Stop further execution
+		}
+			
+		
+
         $data['connected'] = false;
         $data['authUrl'] = '';
         $data['videos'] = [];
@@ -65,7 +111,7 @@ class Traffic_Source extends CI_Controller {
                 $data['connected'] = false;
                 $authUrl = $this->client->createAuthUrl(); // Provide the auth URL again
                 $data['authUrl'] = $authUrl;
-                    redirect(base_url('monetary'));
+                    redirect(base_url('traffic_source'));
             } else {
                 $data['connected'] = true;
 
@@ -334,6 +380,11 @@ class Traffic_Source extends CI_Controller {
 					$maxResults = 5; // Desired number of valid videos
 					$filteredVideos = []; // Filter out Shorts from the results
 					$nextPageToken = null; // Initialize the page token
+					$analyticsResponse = "";
+					$analyticsResponse1 = "";
+					$analyticsResponse2 = "";
+					$analyticsResponse3 = "";
+
 
 					do {
 						// Add searchResponse for filtering videos
@@ -428,7 +479,7 @@ class Traffic_Source extends CI_Controller {
 								'dimensions' => 'country',
 								'maxResults' => $maxResults,
 							]);
-/*
+							/*
 							foreach ($analyticsResponse1['rows'] as $row) {
 								list($country, $views) = $row;
 							
@@ -562,7 +613,7 @@ class Traffic_Source extends CI_Controller {
 								'percentageAge3' => number_format($percentageAge3, 2, ',', '.'),
 								'percentageAge4' => number_format($percentageAge4, 2, ',', '.'),
 								'percentageAge5' => number_format($percentageAge5, 2, ',', '.'),
-/*
+								/*
 								'totalViewsIndonesia' => $totalViewsIndonesia,
 								'totalViewsMalaysia' => $totalViewsMalaysia,
 								'totalViewsUSA' => $totalViewsUSA,
