@@ -47,7 +47,10 @@ class Traffic_Source extends CI_Controller {
 		$this->client = new Client();
         $this->client->setApplicationName('Demo Youtube API');
 
-		$this->client->setAuthConfig('application/views/youtube2.json');
+		//$this->client->setAuthConfig('application/views/youtube2.json');
+		$this->client->setAuthConfig('application/views/youtube.json');
+		//$this->client->setAuthConfig('application/views/youtube1.json');
+		//$this->client->setAuthConfig('application/views/youtube2.json');
         //$this->client->setRedirectUri(base_url('traffic_source/callback')); // Set your redirect URI
 		$this->client->setRedirectUri(base_url('traffic_source')); // Set your redirect URI
 		$this->client->addScope('https://www.googleapis.com/auth/youtube.readonly');
@@ -385,6 +388,16 @@ class Traffic_Source extends CI_Controller {
 					$analyticsResponse2 = "";
 					$analyticsResponse3 = "";
 
+					$analyticsResponse1 = $analytics->reports->query([
+						'ids' => 'channel==MINE',
+						'startDate' => "2017-01-01",
+						'endDate' => "2024-01-01",
+						'metrics' => 'views',
+						//'filters' => 'video==' . $videoId,
+						'dimensions' => 'country',
+						//'maxResults' => $maxResults,
+					]);
+
 
 					do {
 						// Add searchResponse for filtering videos
@@ -657,9 +670,14 @@ class Traffic_Source extends CI_Controller {
 					fwrite($uchwyt, "Published After :");
 					fwrite($uchwyt, "$publishedAfter\r\n");
 					$searchResponseJSON = json_encode($searchResponse);
-					fwrite($uchwyt, "Channel Response :");
+					fwrite($uchwyt, "Search Response :");
+					fwrite($uchwyt, "$searchResponseJSON\r\n");
+
+					$searchResponseJSON = json_encode($searchResponse);
+					fwrite($uchwyt, "Search Response :");
 					fwrite($uchwyt, "$searchResponseJSON\r\n");
                     $analyticsResponseJSON = json_encode($analyticsResponse);
+					
 					fwrite($uchwyt, "Analytics Response :");
 					fwrite($uchwyt, "$analyticsResponseJSON\r\n");
 					$analyticsResponse1JSON = json_encode($analyticsResponse1);
@@ -668,8 +686,9 @@ class Traffic_Source extends CI_Controller {
 					$analyticsResponse2JSON = json_encode($analyticsResponse2);
 					fwrite($uchwyt, "Analytics Response 2 :");
 					fwrite($uchwyt, "$analyticsResponse2JSON\r\n");
-					fwrite($uchwyt, "Region Code :");
-					fwrite($uchwyt, "$regionCode\r\n");
+					$videosJSON = json_encode($videos);
+					fwrite($uchwyt, "Video :");
+					fwrite($uchwyt, "$videosJSON\r\n");
 					$analyticsResponse3JSON = json_encode($analyticsResponse3);
 					fwrite($uchwyt, "Analytics Response 2 :");
 					fwrite($uchwyt, "$analyticsResponse3JSON\r\n");
