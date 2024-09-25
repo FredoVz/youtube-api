@@ -48,9 +48,9 @@ class Traffic_Source extends CI_Controller {
         $this->client->setApplicationName('Demo Youtube API');
 
 		//$this->client->setAuthConfig('application/views/youtube2.json');
-		$this->client->setAuthConfig('application/views/youtube.json');
+		//$this->client->setAuthConfig('application/views/youtube.json');
 		//$this->client->setAuthConfig('application/views/youtube1.json');
-		//$this->client->setAuthConfig('application/views/youtube2.json');
+		$this->client->setAuthConfig('application/views/youtube2.json');
         //$this->client->setRedirectUri(base_url('traffic_source/callback')); // Set your redirect URI
 		$this->client->setRedirectUri(base_url('traffic_source')); // Set your redirect URI
 		$this->client->addScope('https://www.googleapis.com/auth/youtube.readonly');
@@ -286,7 +286,6 @@ class Traffic_Source extends CI_Controller {
 					// Get the friendly name from the mapping
 					$formattedRegionCode = isset($regionMapping[$regionCode]) ? $regionMapping[$regionCode] : 'Unknown Region';
 
-					// Generate the channel URL
 					$channelUrl = "https://www.youtube.com/channel/" . $channelId;
 
 					$uploadsPlaylistId = $contentDetails->getRelatedPlaylists()->getUploads();
@@ -387,6 +386,7 @@ class Traffic_Source extends CI_Controller {
 					$analyticsResponse1 = "";
 					$analyticsResponse2 = "";
 					$analyticsResponse3 = "";
+					$no = 1;
 
 					$analyticsResponse1 = $analytics->reports->query([
 						'ids' => 'channel==MINE',
@@ -425,13 +425,13 @@ class Traffic_Source extends CI_Controller {
 							]);
 
                             // Convert datetime-local format to YYYY-MM-DD format
-                            $startDate = date('Y-m-d', strtotime($publishedAt));
+                            $startDate = '';
 							$endDate = '';
 
                             // Validate dates to ensure they are in the correct format and logical
                             if (!$startDate || !$endDate || $startDate > $endDate) {
                                 // Handle invalid dates here
-                                $startDate = '2016-01-04'; // Default start date
+                                $startDate = date('Y-m-d', strtotime($publishedAt));
                                 $endDate = date('Y-m-d');  // Default end date
                             }
 
@@ -439,47 +439,70 @@ class Traffic_Source extends CI_Controller {
                                 'ids' => 'channel==MINE',
                                 'startDate' => $startDate,
                                 'endDate' => $endDate,
-                                'metrics' => 'views',
+                                'metrics' => 'views,estimatedMinutesWatched,averageViewDuration',
+                                //'metrics' => 'views,averageViewDuration,watchTime,impressions,impressionClickThroughRate',
                                 'dimensions' => 'insightTrafficSourceType',
                                 'filters' => 'video==' . $videoId,
                                 //'sort' => '-views',
                             ]);
 
                             $viewSources = [];
-                            foreach ($analyticsResponse->getRows() as $row) {
-                                $source = $row[0]; // Insight Traffic Source Type
-                                $views = $row[1]; // View count
-                
-                                switch ($source) {
-                                    case 'TOTAL':
-                                        $viewSources['total'] = $views;
-                                        break;
-                                    case 'PLAYLIST':
-                                        $viewSources['playlist'] = $views;
-                                        break;
-                                    case 'YT_SEARCH':
-                                        $viewSources['youtube_search'] = $views;
-                                        break;
-                                    case 'SUGGESTED_VIDEO':
-                                        $viewSources['suggested_videos'] = $views;
-                                        break;
-                                    case 'BROWSE':
-                                        $viewSources['browsed_features'] = $views;
-                                        break;
-                                    case 'EXT_URL':
-                                        $viewSources['external'] = $views;
-                                        break;
-                                    default:
-                                        $viewSources[$source] = $views;
-                                }
-                            }
+							foreach ($analyticsResponse->getRows() as $row) {
+							    $source = $row[0]; // Insight Traffic Source Type
+							    $views = $row[1]; // View count
+							    $estimatedHoursWatched = $row[2] / 60; // Estimated Watch Time
+							    $averageViewDuration = $row[3]; // Average View Duration
 
-							/*
-							echo '<pre>';
-							echo $videoId;
-							echo json_encode($viewSources);
-							echo '</pre>';
-							*/
+							    switch ($source) {
+							        case 'TOTAL':
+							            $viewSources['total'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'PLAYLIST':
+							            $viewSources['playlist'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'YT_SEARCH':
+							            $viewSources['youtube_search'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'SUGGESTED_VIDEO':
+							            $viewSources['suggested_videos'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'BROWSE':
+							            $viewSources['browsed_features'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'EXT_URL':
+							            $viewSources['external'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        // default:
+							        //     $viewSources[$source] = [
+							        //         'views' => $views,
+							        //         'averageViewDuration' => $averageViewDuration,
+							        //     ];
+							    }
+							}
 
 							// Get views by country using YouTube Analytics API
 							// Mendapatkan jumlah views berdasarkan negara menggunakan YouTube Analytics API
@@ -487,45 +510,136 @@ class Traffic_Source extends CI_Controller {
 								'ids' => 'channel==MINE',
 								'startDate' => $startDate,
 								'endDate' => $endDate,
-								'metrics' => 'views',
+								'metrics' => 'views,estimatedMinutesWatched,averageViewDuration',
 								'filters' => 'video==' . $videoId,
 								'dimensions' => 'country',
-								'maxResults' => $maxResults,
+								//'maxResults' => $maxResults,
 							]);
-							/*
+
+							$viewSources1 = [];
 							foreach ($analyticsResponse1['rows'] as $row) {
-								list($country, $views) = $row;
+								$source = $row[0]; // Geography
+							    $views = $row[1]; // View count
+							    $estimatedHoursWatched = $row[2] / 60; // Estimated Watch Time
+							    $averageViewDuration = $row[3]; // Average View Duration
 							
-								switch ($country) {
+								switch ($source) {
 									case 'ID':
-										$totalViewsIndonesia = $views;
+										$viewSources1['indonesia'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
 										break;
 									case 'MY':
-										$totalViewsMalaysia = $views;
+										$viewSources1['malaysia'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
 										break;
 									case 'US':
-										$totalViewsUSA = $views;
+										$viewSources1['united_states'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
 										break;
 									case 'AU':
-										$totalViewsAustralia = $views;
+										$viewSources1['australia'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
 										break;
 									case 'SG':
-										$totalViewsSingapore = $views;
+										$viewSources1['singapore'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
 										break;
 								}
 							}
-								*/
-
+							
 							$analyticsResponse2 = $analytics->reports->query([
 								'ids' => 'channel==MINE',
 								'startDate' => $startDate,
 								'endDate' => $endDate,
 								'metrics' => 'viewerPercentage',
-								'dimensions' => 'ageGroup,gender',
+								'dimensions' => 'ageGroup',
+								//'dimensions' => 'ageGroup,gender',
 								'filters' => 'video==' . $videoId,
-								'maxResults' => $maxResults,
+								//'maxResults' => $maxResults,
 							]);
 
+							$viewSources2 = [];
+							foreach ($analyticsResponse->getRows() as $row) {
+							    $source = $row[0]; // Age Group
+							    $views = $row[1]; // View count
+							    //$averageViewDuration = $row[2]; // Average View Duration
+
+							    switch ($source) {
+									case 'age13-17':
+										$viewSources2['13-17years'] = [
+							                'views' => $views,
+							                //'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+						            case 'age18-24':
+										$viewSources2['18-24years'] = [
+							                'views' => $views,
+							                //'averageViewDuration' => $averageViewDuration,
+							            ];
+									break;
+									case 'age25-34':
+										$viewSources2['25-34years'] = [
+							                'views' => $views,
+							                //'averageViewDuration' => $averageViewDuration,
+							            ];
+									break;
+									case 'age35-44':
+										$viewSources2['35-44years'] = [
+							                'views' => $views,
+							                //'averageViewDuration' => $averageViewDuration,
+							            ];
+									break;
+									case 'age45-54':
+										$viewSources2['45-54years'] = [
+							                'views' => $views,
+							                //'averageViewDuration' => $averageViewDuration,
+							            ];
+									break;
+									case 'age55-64':
+										$viewSources2['55-64years'] = [
+							                'views' => $views,
+							                //'averageViewDuration' => $averageViewDuration,
+							            ];
+									break;
+								}
+							}
+							
+							/*
+							echo '<pre>';
+
+							echo '<pre>',$no++;
+							echo '. Video Id : ',$videoId,'</pre>';
+							//echo $startDate;
+							//echo $endDate;
+							echo '<pre>Traffic Source</pre>';
+							echo '<pre>',json_encode($viewSources),'</pre>';
+
+							echo '<pre>Geography</pre>';
+							echo '<pre>',json_encode($viewSources1),'</pre>';
+
+							echo '<pre>ageGroup</pre>';
+							echo '<pre>',json_encode($viewSources2),'</pre>';
+
+							echo '</pre>';
+							*/
+							
+
+							/*
 							$analyticsResponse3 = $analytics->reports->query([
                                 "ids" => "channel==MINE",
 								"startDate" => "2024-01-01",
@@ -534,6 +648,7 @@ class Traffic_Source extends CI_Controller {
 								"dimensions" => "day",
 								"sort" => "day"
                             ]);
+                            */
 
 							// Ensure video response exists
 							if (empty($videoResponse['items'])) {
@@ -615,6 +730,8 @@ class Traffic_Source extends CI_Controller {
 								'estimatedRevenueIDR' => number_format($estimatedRevenue, 0, ',', '.'),
 								'totalVideoViews' => number_format($views, 0, ',', '.'),
                                 'viewSources' => $viewSources,
+                                'viewSources1' => $viewSources1,
+                                'viewSources2' => $viewSources2,
 								'viewsAge1' => $viewsAge1,
 								'viewsAge2' => $viewsAge2,
 								'viewsAge3' => $viewsAge3,
@@ -626,13 +743,6 @@ class Traffic_Source extends CI_Controller {
 								'percentageAge3' => number_format($percentageAge3, 2, ',', '.'),
 								'percentageAge4' => number_format($percentageAge4, 2, ',', '.'),
 								'percentageAge5' => number_format($percentageAge5, 2, ',', '.'),
-								/*
-								'totalViewsIndonesia' => $totalViewsIndonesia,
-								'totalViewsMalaysia' => $totalViewsMalaysia,
-								'totalViewsUSA' => $totalViewsUSA,
-								'totalViewsAustralia' => $totalViewsAustralia,
-								'totalViewsSingapore' => $totalViewsSingapore,
-								*/
 							];
 
 							$videoCount++; // Increment video count
@@ -673,11 +783,7 @@ class Traffic_Source extends CI_Controller {
 					fwrite($uchwyt, "Search Response :");
 					fwrite($uchwyt, "$searchResponseJSON\r\n");
 
-					$searchResponseJSON = json_encode($searchResponse);
-					fwrite($uchwyt, "Search Response :");
-					fwrite($uchwyt, "$searchResponseJSON\r\n");
                     $analyticsResponseJSON = json_encode($analyticsResponse);
-					
 					fwrite($uchwyt, "Analytics Response :");
 					fwrite($uchwyt, "$analyticsResponseJSON\r\n");
 					$analyticsResponse1JSON = json_encode($analyticsResponse1);
@@ -686,12 +792,12 @@ class Traffic_Source extends CI_Controller {
 					$analyticsResponse2JSON = json_encode($analyticsResponse2);
 					fwrite($uchwyt, "Analytics Response 2 :");
 					fwrite($uchwyt, "$analyticsResponse2JSON\r\n");
-					$videosJSON = json_encode($videos);
-					fwrite($uchwyt, "Video :");
-					fwrite($uchwyt, "$videosJSON\r\n");
 					$analyticsResponse3JSON = json_encode($analyticsResponse3);
-					fwrite($uchwyt, "Analytics Response 2 :");
+					fwrite($uchwyt, "Analytics Response 3 :");
 					fwrite($uchwyt, "$analyticsResponse3JSON\r\n");
+					//$videosJSON = json_encode($videos);
+					//fwrite($uchwyt, "Video :");
+					//fwrite($uchwyt, "$videosJSON\r\n");
 
 					// Close the file
 					fclose($uchwyt);

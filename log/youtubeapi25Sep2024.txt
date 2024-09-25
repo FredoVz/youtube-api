@@ -1,0 +1,10 @@
+===Youtube API==
+Channel Id :UCQ7dUY53AOGGTYl_Myiurlw
+Period :Custom Date
+Published Before:2024-01-01T00:00:00+07:00
+Published After :2017-01-01T00:00:00+07:00
+Search Response :{"etag":"Kxos_PDEsyPGVy30FJ3XobS2lqY","eventId":null,"kind":"youtube#searchListResponse","nextPageToken":null,"prevPageToken":"CAUQAQ","regionCode":"ID","visitorId":null,"pageInfo":{"resultsPerPage":1,"totalResults":6},"items":[{"etag":"kHJi2cIrC0BRWTaVP04uYhAMIWI","kind":"youtube#searchResult","id":{"channelId":null,"kind":"youtube#video","playlistId":null,"videoId":"6qK1FKbhKiQ"},"snippet":{"channelId":"UCQ7dUY53AOGGTYl_Myiurlw","channelTitle":"Fredo","description":"","liveBroadcastContent":"none","publishedAt":"2020-12-27T08:23:53Z","title":"Santa is chinese?","thumbnails":{"default":{"height":90,"url":"https:\/\/i.ytimg.com\/vi\/6qK1FKbhKiQ\/default.jpg","width":120},"medium":{"height":180,"url":"https:\/\/i.ytimg.com\/vi\/6qK1FKbhKiQ\/mqdefault.jpg","width":320},"high":{"height":360,"url":"https:\/\/i.ytimg.com\/vi\/6qK1FKbhKiQ\/hqdefault.jpg","width":480}}}}]}
+Analytics Response :{"kind":"youtubeAnalytics#resultTable","rows":[["NO_LINK_OTHER",0,0,0],["YT_CHANNEL",40,7,10],["SHORTS",1,0,18]],"columnHeaders":[{"columnType":"DIMENSION","dataType":"STRING","name":"insightTrafficSourceType"},{"columnType":"METRIC","dataType":"INTEGER","name":"views"},{"columnType":"METRIC","dataType":"INTEGER","name":"estimatedMinutesWatched"},{"columnType":"METRIC","dataType":"INTEGER","name":"averageViewDuration"}]}
+Analytics Response 1 :{"kind":"youtubeAnalytics#resultTable","rows":[],"columnHeaders":[{"columnType":"DIMENSION","dataType":"STRING","name":"country"},{"columnType":"METRIC","dataType":"INTEGER","name":"views"},{"columnType":"METRIC","dataType":"INTEGER","name":"estimatedMinutesWatched"},{"columnType":"METRIC","dataType":"INTEGER","name":"averageViewDuration"}]}
+Analytics Response 2 :{"kind":"youtubeAnalytics#resultTable","rows":[],"columnHeaders":[{"columnType":"DIMENSION","dataType":"STRING","name":"ageGroup"},{"columnType":"METRIC","dataType":"FLOAT","name":"viewerPercentage"}]}
+Analytics Response 3 :""

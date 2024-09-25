@@ -189,35 +189,32 @@ function formatNumber($number) {
                                                         <p class="card-text"><i class="bi bi-person-fill"></i> Upload Date: <?php echo ($video['uploadDate']); ?></p>
                                                         <p class="card-text"><i class="bi bi-cash"></i> Estimated Revenue: Rp. <?php echo ($video['estimatedRevenueIDR']); ?></p>
                                                         <!-- Display view sources -->
-                                                        <p><i class="bi bi-eye-fill"></i>Views from various sources:</p>
+                                                        <p><i class="bi bi-eye-fill"></i> Traffic Sources : </p>
                                                         <ul>
-                                                            <?php foreach ($video['viewSources'] as $source => $count): ?>
-                                                                <li><strong>
-                                                                    <?php 
-                                                                        switch ($source) {
-                                                                            case 'total':
-                                                                                echo 'Total Views';
-                                                                                break;
-                                                                            case 'playlist':
-                                                                                echo 'Playlist';
-                                                                                break;
-                                                                            case 'youtube_search':
-                                                                                echo 'YouTube Search';
-                                                                                break;
-                                                                            case 'suggested_videos':
-                                                                                echo 'Suggested Videos';
-                                                                                break;
-                                                                            case 'browsed_features':
-                                                                                echo 'Browse Features';
-                                                                                break;
-                                                                            case 'external':
-                                                                                echo 'External';
-                                                                                break;
-                                                                            default:
-                                                                                echo ucfirst(htmlspecialchars($source));
-                                                                        }
-                                                                    ?>
-                                                                </strong>: <?php echo number_format($count, 0, ',', '.'); ?></li>
+                                                            <?php foreach ($video['viewSources'] as $source => $data): ?>
+                                                                <li>
+                                                                    <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                                                    Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                                                    Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                        <p><i class="bi bi-eye-fill"></i> Geography : </p>
+                                                        <ul>
+                                                            <?php foreach ($video['viewSources1'] as $source => $data): ?>
+                                                                <li>
+                                                                    <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                                                    Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                                                    Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                        <p><i class="bi bi-eye-fill"></i> Age Group : </p>
+                                                        <ul>
+                                                            <?php foreach ($video['viewSources2'] as $source => $data): ?>
+                                                                <li>
+                                                                    <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                                                </li>
                                                             <?php endforeach; ?>
                                                         </ul>
                                                         <p class="card-text"><i class="bi bi-eye-fill"></i> Views Age: <?php echo ($video['viewsAge1']); ?></p>
@@ -411,35 +408,32 @@ function formatNumber($number) {
                                 <p class="card-text"><i class="bi bi-person-fill"></i> Genre: ${video.genre}</p>
                                 <p class="card-text"><i class="bi bi-person-fill"></i> Upload Date: ${video.uploadDate}</p>
                                 <p class="card-text"><i class="bi bi-cash"></i> Estimated Revenue: Rp. ${video.estimatedRevenueIDR}</p>
-                                <p><i class="bi bi-eye-fill"></i> Views from various sources:</p>
+                                <p><i class="bi bi-eye-fill"></i> Traffic Sources : </p>
                                 <ul>
-                                    <?php foreach ($video['viewSources'] as $source => $count): ?>
-                                        <li><strong>
-                                            <?php 
-                                                switch ($source) {
-                                                    case 'total':
-                                                        echo 'Total Views';
-                                                        break;
-                                                    case 'playlist':
-                                                        echo 'Playlist';
-                                                        break;
-                                                    case 'youtube_search':
-                                                        echo 'YouTube Search';
-                                                        break;
-                                                    case 'suggested_videos':
-                                                        echo 'Suggested Videos';
-                                                        break;
-                                                    case 'browsed_features':
-                                                        echo 'Browse Features';
-                                                        break;
-                                                    case 'external':
-                                                        echo 'External';
-                                                        break;
-                                                    default:
-                                                        echo ucfirst(htmlspecialchars($source));
-                                                }
-                                            ?>
-                                        </strong>: <?php echo number_format($count, 0, ',', '.'); ?></li>
+                                    <?php foreach ($video['viewSources'] as $source => $data): ?>
+                                        <li>
+                                            <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                            Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                            Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <p><i class="bi bi-eye-fill"></i> Geography : </p>
+                                <ul>
+                                    <?php foreach ($video['viewSources1'] as $source => $data): ?>
+                                        <li>
+                                            <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                            Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                            Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <p><i class="bi bi-eye-fill"></i> Age Group : </p>
+                                <ul>
+                                    <?php foreach ($video['viewSources2'] as $source => $data): ?>
+                                        <li>
+                                            <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                        </li>
                                     <?php endforeach; ?>
                                 </ul>
                                 <p class="card-text"><i class="bi bi-eye-fill"></i> viewsAge 1 : ${video.viewsAge1}</p>
