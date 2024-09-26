@@ -619,6 +619,72 @@ class Traffic_Source extends CI_Controller {
 								}
 							}
 							
+							$analyticsResponse3 = $analytics->reports->query([
+                                'ids' => 'channel==MINE',
+								'startDate' => $startDate,
+								'endDate' => $endDate,
+								'metrics' => 'views,estimatedMinutesWatched,averageViewDuration',
+								'dimensions' => 'city',
+								'maxResults' => 250,
+								'sort' => '-views'
+                            ]);
+
+                            $viewSources3 = [
+                            	/*
+							    'indonesia' => [
+							        'Jakarta' => ['views' => 0, 'estimatedHoursWatched' => 0, 'averageViewDuration' => 0],
+							        'Bandung' => ['views' => 0, 'estimatedHoursWatched' => 0, 'averageViewDuration' => 0],
+							        'Surabaya' => ['views' => 0, 'estimatedHoursWatched' => 0, 'averageViewDuration' => 0],
+							        'Medan' => ['views' => 0, 'estimatedHoursWatched' => 0, 'averageViewDuration' => 0],
+							        'Makassar' => ['views' => 0, 'estimatedHoursWatched' => 0, 'averageViewDuration' => 0]
+							    ]
+							    */
+							];
+                            foreach ($analyticsResponse3['rows'] as $row) {
+							    $source = $row[0]; // City
+							    $views = $row[1]; // View count
+							    $estimatedHoursWatched = $row[2] / 60; // Estimated Watch Time
+							    $averageViewDuration = $row[3]; // Average View Duration
+
+							    switch ($source) {
+							        case 'Jakarta':
+							            $viewSources3['indonesia']['Jakarta'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'Bandung':
+							            $viewSources3['indonesia']['Bandung'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'Surabaya':
+							            $viewSources3['indonesia']['Surabaya'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'Medan':
+							            $viewSources3['indonesia']['Medan'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							        case 'Makassar':
+							            $viewSources3['indonesia']['Makassar'] = [
+							                'views' => $views,
+							                'estimatedHoursWatched' => number_format($estimatedHoursWatched, 2, ',', '.'),
+							                'averageViewDuration' => $averageViewDuration,
+							            ];
+							            break;
+							    }
+							}
+
 							/*
 							echo '<pre>';
 
@@ -632,24 +698,15 @@ class Traffic_Source extends CI_Controller {
 							echo '<pre>Geography</pre>';
 							echo '<pre>',json_encode($viewSources1),'</pre>';
 
+							echo '<pre>City</pre>';
+							echo '<pre>',json_encode($viewSources3),'</pre>';
+
 							echo '<pre>ageGroup</pre>';
 							echo '<pre>',json_encode($viewSources2),'</pre>';
 
 							echo '</pre>';
 							*/
-							
-
-							/*
-							$analyticsResponse3 = $analytics->reports->query([
-                                "ids" => "channel==MINE",
-								"startDate" => "2024-01-01",
-								"endDate" => "2024-08-28",
-								"metrics" => "views,estimatedMinutesWatched,averageViewDuration,averageViewPercentage,subscribersGained",
-								"dimensions" => "day",
-								"sort" => "day"
-                            ]);
-                            */
-
+                            
 							// Ensure video response exists
 							if (empty($videoResponse['items'])) {
 								continue; // Skip if no video data
@@ -732,6 +789,7 @@ class Traffic_Source extends CI_Controller {
                                 'viewSources' => $viewSources,
                                 'viewSources1' => $viewSources1,
                                 'viewSources2' => $viewSources2,
+                                'viewSources3' => $viewSources3,
 								'viewsAge1' => $viewsAge1,
 								'viewsAge2' => $viewsAge2,
 								'viewsAge3' => $viewsAge3,
@@ -782,7 +840,6 @@ class Traffic_Source extends CI_Controller {
 					$searchResponseJSON = json_encode($searchResponse);
 					fwrite($uchwyt, "Search Response :");
 					fwrite($uchwyt, "$searchResponseJSON\r\n");
-
                     $analyticsResponseJSON = json_encode($analyticsResponse);
 					fwrite($uchwyt, "Analytics Response :");
 					fwrite($uchwyt, "$analyticsResponseJSON\r\n");

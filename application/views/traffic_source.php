@@ -209,11 +209,23 @@ function formatNumber($number) {
                                                                 </li>
                                                             <?php endforeach; ?>
                                                         </ul>
+                                                        <p><i class="bi bi-eye-fill"></i> City : </p>
+                                                        <ul>
+                                                            <?php foreach ($video['viewSources3'] as $source => $data): ?>
+                                                                <li>
+                                                                    <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                                                    Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                                                    Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
                                                         <p><i class="bi bi-eye-fill"></i> Age Group : </p>
                                                         <ul>
                                                             <?php foreach ($video['viewSources2'] as $source => $data): ?>
                                                                 <li>
-                                                                    <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                                                    <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                                                    Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                                                    Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
                                                                 </li>
                                                             <?php endforeach; ?>
                                                         </ul>
@@ -428,11 +440,23 @@ function formatNumber($number) {
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
+                                <p><i class="bi bi-eye-fill"></i> City : </p>
+                                <ul>
+                                    <?php foreach ($video['viewSources3'] as $source => $data): ?>
+                                        <li>
+                                            <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                            Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                            Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
                                 <p><i class="bi bi-eye-fill"></i> Age Group : </p>
                                 <ul>
                                     <?php foreach ($video['viewSources2'] as $source => $data): ?>
                                         <li>
-                                            <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
+                                            <?= htmlspecialchars(ucwords(str_replace('_', ' ', $source))) ?>: <?= intval($data['views']) ?> views, 
+                                            Watch Time (Hours): <?= htmlspecialchars($data['estimatedHoursWatched']) ?>,
+                                            Average View Duration: <?= htmlspecialchars($data['averageViewDuration']) ?>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
