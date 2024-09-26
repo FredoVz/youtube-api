@@ -379,7 +379,7 @@ class Traffic_Source extends CI_Controller {
 					$totalAllRevenue = 0;
 					$totalAllDuration = 0;
 					$videoCount = 0; // Inisialisasi penghitung video
-					$maxResults = 5; // Desired number of valid videos
+					$maxResults = 50; // Desired number of valid videos
 					$filteredVideos = []; // Filter out Shorts from the results
 					$nextPageToken = null; // Initialize the page token
 					$analyticsResponse = "";
