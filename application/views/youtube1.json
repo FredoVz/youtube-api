@@ -1,1 +1,16 @@
-{"web":{"client_id":"457309918111-2til8vfh3l4lro3rejnr61jb90m395od.apps.googleusercontent.com","project_id":"sublime-elixir-430308-t1","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost/youtube-api/traffic_source/"]}}
+{
+  "web": {
+    "client_id": "457309918111-2til8vfh3l4lro3rejnr61jb90m395od.apps.googleusercontent.com",
+    "project_id": "sublime-elixir-430308-t1",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": [
+      "http://localhost/youtube-api/traffic_source",
+      "http://localhost/youtube-api/popular",
+      "http://localhost/youtube-api/popular/callback",
+      "http://localhost/youtube-api/popular/disconnect"
+    ]
+  }
+}

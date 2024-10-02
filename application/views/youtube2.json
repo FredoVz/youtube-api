@@ -1,1 +1,16 @@
-{"web":{"client_id":"672500994038-k4g7ncbfneu55i09t14a2rlslbkb838b.apps.googleusercontent.com","project_id":"starlit-booster-433303-d3","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost/youtube-api/traffic_source"]}}
+{
+  "web": {
+    "client_id": "672500994038-k4g7ncbfneu55i09t14a2rlslbkb838b.apps.googleusercontent.com",
+    "project_id": "starlit-booster-433303-d3",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": [
+      "http://localhost/youtube-api/traffic_source",
+      "http://localhost/youtube-api/popular",
+      "http://localhost/youtube-api/popular/callback",
+      "http://localhost/youtube-api/popular/disconnect"
+    ]
+  }
+}

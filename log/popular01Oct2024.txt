@@ -1,0 +1,12 @@
+===Youtube API==
+Period:week
+Start Date:2024-09-23
+End Date :2024-09-29
+Analytics Response :{"kind":"youtubeAnalytics#resultTable","rows":[["gH-mfKXr7nY","2024-09-24",1],["xBIVfoi3hVk","2024-09-24",1],["gH-mfKXr7nY","2024-09-25",1],["gH-mfKXr7nY","2024-09-26",1],["6qK1FKbhKiQ","2024-09-27",2]],"columnHeaders":[{"columnType":"DIMENSION","dataType":"STRING","name":"video"},{"columnType":"DIMENSION","dataType":"STRING","name":"day"},{"columnType":"METRIC","dataType":"INTEGER","name":"views"}]}
+Popular :{"2024-09-24":[{"videoId":"gH-mfKXr7nY","views":1},{"videoId":"xBIVfoi3hVk","views":1}],"2024-09-25":[{"videoId":"gH-mfKXr7nY","views":1}],"2024-09-26":[{"videoId":"gH-mfKXr7nY","views":1}],"2024-09-27":[{"videoId":"6qK1FKbhKiQ","views":2}]}
+===Youtube API==
+Period:month
+Start Date:2024-09-02
+End Date :2024-09-29
+Analytics Response :{"kind":"youtubeAnalytics#resultTable","rows":[["xBIVfoi3hVk","2024-09-04",1],["6qK1FKbhKiQ","2024-09-05",0],["Bg8LLaq-cbI","2024-09-05",0],["X5tx18QJ3Fo","2024-09-05",1],["gH-mfKXr7nY","2024-09-24",1],["xBIVfoi3hVk","2024-09-24",1],["gH-mfKXr7nY","2024-09-25",1],["gH-mfKXr7nY","2024-09-26",1],["6qK1FKbhKiQ","2024-09-27",2]],"columnHeaders":[{"columnType":"DIMENSION","dataType":"STRING","name":"video"},{"columnType":"DIMENSION","dataType":"STRING","name":"day"},{"columnType":"METRIC","dataType":"INTEGER","name":"views"}]}
+Popular :{"2024-09-04":[{"videoId":"xBIVfoi3hVk","views":1}],"2024-09-05":[{"videoId":"X5tx18QJ3Fo","views":1},{"videoId":"6qK1FKbhKiQ","views":0},{"videoId":"Bg8LLaq-cbI","views":0}],"2024-09-24":[{"videoId":"gH-mfKXr7nY","views":1},{"videoId":"xBIVfoi3hVk","views":1}],"2024-09-25":[{"videoId":"gH-mfKXr7nY","views":1}],"2024-09-26":[{"videoId":"gH-mfKXr7nY","views":1}],"2024-09-27":[{"videoId":"6qK1FKbhKiQ","views":2}]}

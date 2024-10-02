@@ -291,15 +291,17 @@ class Traffic_Source extends CI_Controller {
 					$uploadsPlaylistId = $contentDetails->getRelatedPlaylists()->getUploads();
 
 					// Get the current page token from the request
-					$pageToken = $this->input->get('pageToken') ?: '';
+					//$pageToken = $this->input->get('pageToken') ?: '';
 					$perPage = 50; // Videos per page
 
 					// Ambil video dari playlist unggahan
+					
 					$playlistItemsResponse = $youtube->playlistItems->listPlaylistItems('snippet', [
 						'playlistId' => $uploadsPlaylistId,
 						'maxResults' => $perPage,
-						'pageToken' => $pageToken,
+						//'pageToken' => $pageToken,
 					]);
+					
 
 					// Get the total number of results from the playlistItemsResponse
 					//$totalResults = $channelsResponse->getPageInfo()->getTotalResults();
@@ -379,7 +381,7 @@ class Traffic_Source extends CI_Controller {
 					$totalAllRevenue = 0;
 					$totalAllDuration = 0;
 					$videoCount = 0; // Inisialisasi penghitung video
-					$maxResults = 50; // Desired number of valid videos
+					$maxResults = 5; // Desired number of valid videos
 					$filteredVideos = []; // Filter out Shorts from the results
 					$nextPageToken = null; // Initialize the page token
 					$analyticsResponse = "";
@@ -388,6 +390,7 @@ class Traffic_Source extends CI_Controller {
 					$analyticsResponse3 = "";
 					$no = 1;
 
+					/*
 					$analyticsResponse1 = $analytics->reports->query([
 						'ids' => 'channel==MINE',
 						'startDate' => "2017-01-01",
@@ -395,8 +398,8 @@ class Traffic_Source extends CI_Controller {
 						'metrics' => 'views',
 						//'filters' => 'video==' . $videoId,
 						'dimensions' => 'country',
-						//'maxResults' => $maxResults,
 					]);
+					*/
 
 
 					do {
@@ -513,7 +516,6 @@ class Traffic_Source extends CI_Controller {
 								'metrics' => 'views,estimatedMinutesWatched,averageViewDuration',
 								'filters' => 'video==' . $videoId,
 								'dimensions' => 'country',
-								//'maxResults' => $maxResults,
 							]);
 
 							$viewSources1 = [];
@@ -570,7 +572,6 @@ class Traffic_Source extends CI_Controller {
 								'dimensions' => 'ageGroup',
 								//'dimensions' => 'ageGroup,gender',
 								'filters' => 'video==' . $videoId,
-								//'maxResults' => $maxResults,
 							]);
 
 							$viewSources2 = [];

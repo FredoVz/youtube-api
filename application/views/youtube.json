@@ -25,6 +25,9 @@
       "http://localhost/youtube-api/index.php/traffic_source",
       "https://redirectmeto.com/http://localhost/youtube-api/traffic_source",
       "https://redirectmeto.com/http://localhost/youtube-api/index.php/traffic_source"
+      "http://localhost/youtube-api/popular",
+      "http://localhost/youtube-api/popular/callback",
+      "http://localhost/youtube-api/popular/disconnect"
     ]
   }
 }
