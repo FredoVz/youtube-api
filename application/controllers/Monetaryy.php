@@ -211,8 +211,8 @@ class Monetaryy extends CI_Controller {
         // Ambil video dari playlist unggahan
         $playlistItemsResponse = $youtube->playlistItems->listPlaylistItems('snippet', [
             'playlistId' => $uploadsPlaylistId,
-            'maxResults' => $perPage,
-            'pageToken' => $pageToken,
+            //'maxResults' => $perPage,
+            //'pageToken' => $pageToken,
         ]);
 
         // Get the total number of results from the playlistItemsResponse
@@ -476,6 +476,10 @@ class Monetaryy extends CI_Controller {
 		$videosJSON = json_encode($videos);
 		fwrite($uchwyt, "Videos :");
 		fwrite($uchwyt, "$videosJSON\r\n");
+
+		$playlistResponseJSON = json_encode($playlistItemsResponse);
+		fwrite($uchwyt, "Playlist Response :");
+		fwrite($uchwyt, "$playlistResponseJSON\r\n");
 
 		// Close the file
 		fclose($uchwyt);

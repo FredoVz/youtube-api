@@ -243,6 +243,10 @@ class Popular extends CI_Controller {
                 $viewSourcesJSON = json_encode($viewSources);
                 fwrite($uchwyt, "Popular :");
                 fwrite($uchwyt, "$viewSourcesJSON\r\n");
+                $responseJSON = json_encode($response);
+                fwrite($uchwyt, "Response :");
+                fwrite($uchwyt, "$responseJSON\r\n");
+
 
                 $data['viewSources'] = $viewSources;
             }
