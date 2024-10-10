@@ -99,6 +99,7 @@ class Monetary extends CI_Controller {
 					//$publishedAt = $channelSnippet->getPublishedAt();
 					$publishedAt = $channelSnippet->getpublishedAt();
 					$joinedDate = new DateTime($publishedAt);
+					$joinedDate->modify('+1 hour');
 					$formattedJoinedDate = $joinedDate->format('d M Y');
 					$formattedJoinedDate = "Bergabung pada " . $formattedJoinedDate;
 

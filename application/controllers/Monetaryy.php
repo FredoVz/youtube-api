@@ -72,6 +72,9 @@ class Monetaryy extends CI_Controller {
 		//$publishedAt = $channelSnippet->getPublishedAt();
         $publishedAt = $channelSnippet->getpublishedAt();
         $joinedDate = new DateTime($publishedAt);
+        // Tambahkan satu jam
+        //echo json_encode($joinedDate);
+		$joinedDate->modify('+1 hour');
         $formattedJoinedDate = $joinedDate->format('d M Y');
         $formattedJoinedDate = "Bergabung pada " . $formattedJoinedDate;
 
@@ -279,6 +282,12 @@ class Monetaryy extends CI_Controller {
             // Sort by popularity
             // Set `publishedAfter` to the date when the channel was first created
             $publishedAfter = $joinedDate->format('Y-m-d\TH:i:s\Z'); // This uses the channel creation date
+            //echo $publishedAfter;
+            //$publishedAfter = "2014-11-27T10:59:57Z";
+            //echo $publishedAfter;
+            //$publishedAfter = "2014-11-27T10:50:00Z";
+            //$publishedAfter = "2014-11-27T06:27:23Z";
+            //$publishedAfter = "2014-11-27T07:27:23Z";
             $order = 'viewCount'; // Order by popularity
         } else {
 			throw new Exception('Invalid period selected');
@@ -295,7 +304,7 @@ class Monetaryy extends CI_Controller {
         $nextPageToken = null; // Initialize the page token
 		$totalAllDuration = 0;
 
-		do {
+		//do {
 			// Add searchResponse for filtering videos
 			$searchResponse = $youtube->search->listSearch('snippet', [
 				'channelId' => $channelId,
@@ -303,7 +312,7 @@ class Monetaryy extends CI_Controller {
 				'publishedBefore' => $publishedBefore,
 				'publishedAfter' => $publishedAfter, // Set your desired date
 				'maxResults' => $maxResults, // Fetch up to 50 results per page
-				'pageToken' => $nextPageToken, // Use page token for pagination
+				//'pageToken' => $nextPageToken, // Use page token for pagination
 				'type' => 'video,channel',
 			]);
 
@@ -320,10 +329,12 @@ class Monetaryy extends CI_Controller {
 					'id' => $videoId,
 				]);
 
+				/*
 				// Ensure video response exists
 				if (empty($videoResponse['items'])) {
 					continue; // Skip if no video data
 				}
+				*/
 
 				$videoItem = $videoResponse['items'][0];
 
@@ -428,18 +439,19 @@ class Monetaryy extends CI_Controller {
 					'percentageAge6' => number_format($percentageAge6, 2, ',', '.'),
 					'totalAllDuration' => $totalAllDuration,
 				];
-
+				/*
 				$videoCount++; // Increment video count
 
 				if ($videoCount >= $maxResults) {
 					break 2; // Stop the loop if we have enough valid videos
 				}
+				*/
 			}
 
 			// Get the next page token, if any
 			$nextPageToken = $searchResponse->getnextPageToken();
 
-		} while ($nextPageToken && $videoCount < $maxResults);
+		//} while ($nextPageToken && $videoCount < $maxResults);
 
 		$usd = $this->getRealTimeExchangeRate();
 
