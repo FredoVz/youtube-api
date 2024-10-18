@@ -373,6 +373,20 @@ function formatNumber($number) {
                                 <p class="card-text"><i class="bi bi-person-fill"></i> Genre: ${video.genre}</p>
                                 <p class="card-text"><i class="bi bi-person-fill"></i> Upload Date: ${video.uploadDate}</p>
                                 <p class="card-text"><i class="bi bi-cash"></i> Estimated Revenue: Rp. ${video.estimatedRevenueIDR}</p>
+
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> viewsAge 1 : ${video.viewsAge1}</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> viewsAge 2 : ${video.viewsAge2}</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> viewsAge 3 : ${video.viewsAge3}</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> viewsAge 4 : ${video.viewsAge4}</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> viewsAge 5 : ${video.viewsAge5}</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> viewsAge 6 : ${video.viewsAge6}</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> percentageAge 1 : ${video.percentageAge1}%</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> percentageAge 2 : ${video.percentageAge2}%</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> percentageAge 3 : ${video.percentageAge3}%</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> percentageAge 4 : ${video.percentageAge4}%</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> percentageAge 5 : ${video.percentageAge5}%</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> percentageAge 6 : ${video.percentageAge6}%</p>
+                                <p class="card-text"><i class="bi bi-eye-fill"></i> Total All Duration:  ${video.totalAllDuration} Seconds</p>
                             </div>
                         </div>
                     </a>
