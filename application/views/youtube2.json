@@ -10,7 +10,10 @@
       "http://localhost/youtube-api/traffic_source",
       "http://localhost/youtube-api/popular",
       "http://localhost/youtube-api/popular/callback",
-      "http://localhost/youtube-api/popular/disconnect"
+      "http://localhost/youtube-api/popular/disconnect",
+      "http://localhost/youtube-api/views",
+      "http://localhost/youtube-api/views/callback",
+      "http://localhost/youtube-api/views/disconnect"
     ]
   }
 }
