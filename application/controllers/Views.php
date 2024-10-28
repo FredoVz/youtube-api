@@ -113,6 +113,9 @@ class Views extends CI_Controller {
                     if (isset($item['id']['videoId'])) {
                         $videoIds[] = $item['id']['videoId'];
                     }
+                    if (isset($item['snippet']['title'])) {
+                        $videoTitles[] = $item['snippet']['title'];
+                    }
                 }
 
                 $countryIdsString = "ID";
@@ -120,14 +123,48 @@ class Views extends CI_Controller {
                 // Menggabungkan array videoIds menjadi string yang dipisahkan koma
                 $videoIdsString = implode(',', $videoIds);
 
+                $startDate = '2022-12-10';
+                $endDate = '2022-12-20';
+
+                /*
+                $response = array(
+                    "Start Date: " => $startDate,
+                    "End Date: " => $endDate,
+
+                );
+
+                echo '<pre>';
+                echo json_encode($response);
+                echo '</pre>';
+                */
+
+                echo '<pre>';
+                echo "Start Date: ", $startDate;
+                echo '</pre>';
+                echo '<pre>';
+                echo "End Date: ", $endDate;
+                echo '</pre>';
+
+                //echo json_encode($videoIdsString);
+
+                //echo json_encode($videoTitles);
+
+                /*
+                    $startDate = $this->input->post();
+                    $endDate = $this->input->post();
+                */
+
+                // Create a mapping of videoId to videoTitle
+                $videoIdToTitle = array_combine($videoIds, $videoTitles);
+
+
                 $analyticsResponse = $analytics->reports->query([
                     'ids' => 'channel==MINE',
-                    'startDate' => '2024-10-18',
-                    'endDate' => '2024-10-25',
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
                     'metrics' => 'views,averageViewDuration,estimatedMinutesWatched',
                     'dimensions' => 'video,day',
                     'filters' => 'video==' . $videoIdsString,
-                    //'filters' => 'video==', 
                     //'sort' => '-views',
                     //'maxResults' => 200,
 
@@ -135,12 +172,21 @@ class Views extends CI_Controller {
 
                 $analyticsResponse1 = $analytics->reports->query([
                 	'ids' => 'channel==MINE',
-                	'startDate' => '2024-10-18',
-    				'endDate' => '2024-10-25',
+                	'startDate' => $startDate,
+    				'endDate' => $endDate,
     				'metrics' => 'views,averageViewDuration,estimatedMinutesWatched',
     				'dimensions' => 'video,country',
     				'filters' => 'video==' . $videoIdsString,
                	]);
+
+                $analyticsResponse2 = $analytics->reports->query([
+                    'ids' => 'channel==MINE',
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
+                    'metrics' => 'views,averageViewDuration,estimatedMinutesWatched',
+                    'dimensions' => 'video,day,country',
+                    'filters' => 'video==' . $videoIdsString.";country==".$countryIdsString,
+                ]);
 
                 //$estimatedRevenue = $this->estimatedRevenue();
 
@@ -148,7 +194,12 @@ class Views extends CI_Controller {
                 foreach ($analyticsResponse->getRows() as $row) {
                     $videoId = $row[0]; // Video
                     $day = $row[1]; // Day
-                    $views = $row[2];
+                    $views = $row[2]; // Views
+                    $averageViewDuration = $row[3]; // Average View Duration
+                    $estimatedMinutesWatched = $row[4]; // Estimated Minutes Watched
+
+                    // Get video title from the mapping
+                    $videoTitle = $videoIdToTitle[$videoId] ?? 'Unknown Title';
 
                     // Memasukkan data ke array viewSources berdasarkan videoId dan day
                     if (!isset($viewSources[$day])) {
@@ -158,7 +209,64 @@ class Views extends CI_Controller {
                     // Simpan berdasarkan hari
                     $viewSources[$day][] = [
                         'videoId' => $videoId,
+                        'videoTitle' => $videoTitle,
                         'views' => $views,
+                        'averageViewDuration' => $averageViewDuration,
+                        'estimatedMinutesWatched' => $estimatedMinutesWatched,
+                    ];
+                }
+
+                $viewSources1 = [];
+                foreach ($analyticsResponse1->getRows() as $row) {
+                    $videoId = $row[0]; // Video
+                    $country = $row[1]; // Country
+                    $views = $row[2]; // Views
+                    $averageViewDuration = $row[3]; // Average View Duration
+                    $estimatedMinutesWatched = $row[4]; // Estimated Minutes Watched
+
+                    // Get video title from the mapping
+                    $videoTitle = $videoIdToTitle[$videoId] ?? 'Unknown Title';
+
+                    // Memasukkan data ke array viewSources berdasarkan videoId dan country
+                    if (!isset($viewSources1[$country])) {
+                        $viewSources1[$country] = [];
+                    }
+                    
+                    // Simpan berdasarkan hari
+                    $viewSources1[$country][] = [
+                        'videoId' => $videoId,
+                        'videoTitle' => $videoTitle,
+                        'views' => $views,
+                        'averageViewDuration' => $averageViewDuration,
+                        'estimatedMinutesWatched' => $estimatedMinutesWatched,
+                    ];
+                }
+
+                $viewSources2 = [];
+                foreach ($analyticsResponse2->getRows() as $row) {
+                    $videoId = $row[0]; // Video
+                    $day = $row[1]; // Day
+                    $country = $row[2]; // Country
+                    $views = $row[3]; // Views
+                    $averageViewDuration = $row[4]; // Average View Duration
+                    $estimatedMinutesWatched = $row[5]; // Estimated Minutes Watched
+
+                    // Get video title from the mapping
+                    $videoTitle = $videoIdToTitle[$videoId] ?? 'Unknown Title';
+
+                    // Memasukkan data ke array viewSources berdasarkan videoId dan day
+                    if (!isset($viewSources2[$day])) {
+                        $viewSources2[$day] = [];
+                    }
+                    
+                    // Simpan berdasarkan hari
+                    $viewSources2[$day][] = [
+                        'videoId' => $videoId,
+                        'videoTitle' => $videoTitle,
+                        'country' => $country,
+                        'views' => $views,
+                        'averageViewDuration' => $averageViewDuration,
+                        'estimatedMinutesWatched' => $estimatedMinutesWatched,
                     ];
                 }
 
@@ -174,6 +282,7 @@ class Views extends CI_Controller {
                     });
                 }
 
+                
                 // Define the directory and file path
                 $logDirectory = "log/";
                 $logFilePath = $logDirectory . "views" . date("dMY") . ".txt";
@@ -188,14 +297,23 @@ class Views extends CI_Controller {
 
                 // Write to the file
                 fwrite($uchwyt, "===Youtube API==\r\n");
+                fwrite($uchwyt, "Start Date:");
+                fwrite($uchwyt, "$startDate\r\n");
+                fwrite($uchwyt, "End Date :");
+                fwrite($uchwyt, "$endDate\r\n");
                 $analyticsResponseJSON = json_encode($analyticsResponse);
                 fwrite($uchwyt, "Analytics Response :");
                 fwrite($uchwyt, "$analyticsResponseJSON\r\n");
                 $analyticsResponse1JSON = json_encode($analyticsResponse1);
                 fwrite($uchwyt, "Analytics Response 1 :");
                 fwrite($uchwyt, "$analyticsResponse1JSON\r\n");
+                $analyticsResponse2JSON = json_encode($analyticsResponse2);
+                fwrite($uchwyt, "Analytics Response 2 :");
+                fwrite($uchwyt, "$analyticsResponse2JSON\r\n");
 
                 $data['viewSources'] = $viewSources;
+                $data['viewSources1'] = $viewSources1;
+                $data['viewSources2'] = $viewSources2;
             }
     	}
 
